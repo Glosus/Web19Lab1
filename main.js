@@ -46,27 +46,30 @@ function yTranslator(text, lang){
 }
 
 function resultsDisplay(param, value){
-  let aaa = doT.template(document.getElementById('my-test').innerHTML);
+  let myTemplate = doT.template(document.getElementById('my-test').innerHTML);
   let label = param[0].toUpperCase() + param.slice(1) + ': ' + value;
-  let ara = aaa({
+  let compTemp = myTemplate({
       param: param,
       value: yTranslator(label, 'ru')
   	})
-    console.log(ara);
-  var d1 = document.getElementById('result_blocks');
-  d1.insertAdjacentHTML('beforeend', ara);
-
+  document.getElementById('result_blocks').insertAdjacentHTML('beforeend', compTemp);
 }
 
 function main() {
   document.getElementById('result_blocks').innerHTML = '';
   let text = document.getElementsByName("search")[0].value;
   let enSearchString = yTranslator(text, 'en');
-  console.log(enSearchString);
-  let weatherRes = weatherSearch(enSearchString);
-  console.log(weatherRes);
-  let finalData = weatherParser(weatherRes);
-  for (i in finalData) {
-    resultsDisplay(i, finalData[i])
+  if (!enSearchString) { alert('Ошибка при обращении к API Yandex') }
+  else{
+    console.log(enSearchString);
+    let weatherRes = weatherSearch(enSearchString);
+    if (!weatherRes) { alert('Ошибка при обращении к API OpenWeatherMap')  }
+    else{
+      console.log(weatherRes);
+      let finalData = weatherParser(weatherRes);
+      for (i in finalData) {
+        resultsDisplay(i, finalData[i])
+      }
+    }
   }
 }
