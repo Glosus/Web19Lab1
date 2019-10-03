@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ru">
   <head>
     <meta charset="utf-8">
@@ -8,10 +8,10 @@
   <script type="text/javascript" src="doT/doT.js"></script>
   <link rel="stylesheet" type="text/css" href="css/style.css"/>
   <body>
-    <div id="search_block">
-      <input type="text" name="search" id="myInput" value="">
-      <button type="button" name="button" id="myButton" onclick="main()">Найти</button>
-    </div>
+	<form id="search_block">
+	      <input type="text" name="search" id="myInput" value="">
+	      <input type="submit" name="button" id="myButton">
+	</form>
     <div id="result_blocks"></div>
   </body>
   <script id="my-test" type="text/x-dot-template">
@@ -19,6 +19,9 @@
       <img src="img/{{=it.param}}.png" alt="">
       <div>{{=it.value}}</div>
     </div>
+  </script>
+   <script id="my-error" type="text/x-dot-template">
+    <H1 id="err_mes"> {{=it.str}} </H1>
   </script>
   <script type="text/javascript" src="main.js"></script>
 </html>

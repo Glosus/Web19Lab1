@@ -1,4 +1,4 @@
-function weatherSearch(city){
+﻿function weatherSearch(city){
   let xhr = new XMLHttpRequest();
   let link = 'https://api.openweathermap.org/data/2.5/weather?';
   let appid = '73a2f4a5254e97adabb2160caa6234a8'
@@ -55,21 +55,35 @@ function resultsDisplay(param, value){
   document.getElementById('result_blocks').insertAdjacentHTML('beforeend', compTemp);
 }
 
-function main() {
-  document.getElementById('result_blocks').innerHTML = '';
-  let text = document.getElementsByName("search")[0].value;
-  let enSearchString = yTranslator(text, 'en');
-  if (!enSearchString) { alert('Ошибка при обращении к API Yandex') }
-  else{
+function printError(str){
+	let myTemplate = doT.template(document.getElementById('my-error').innerHTML);
+	let compTemp = myTemplate({
+		str: str
+	})
+	document.getElementById('result_blocks').insertAdjacentHTML('beforeend', compTemp);
+}
+
+document.getElementById('search_block').addEventListener('submit', function(event){
+	document.getElementById('result_blocks').innerHTML = '';
+	let text = document.getElementsByName("search")[0].value;
+	let enSearchString = yTranslator(text, 'en');
+	if (!enSearchString) { 
+		printError('Ошибка при обращении к API Yandex');
+		event.preventDefault();
+		return;
+	}
     console.log(enSearchString);
     let weatherRes = weatherSearch(enSearchString);
-    if (!weatherRes) { alert('Ошибка при обращении к API OpenWeatherMap')  }
-    else{
-      console.log(weatherRes);
-      let finalData = weatherParser(weatherRes);
-      for (i in finalData) {
-        resultsDisplay(i, finalData[i])
-      }
-    }
-  }
-}
+    if (!weatherRes) { 
+		printError('Ошибка при обращении к API OpenWeatherMap');
+		event.preventDefault();
+		return;
+	}
+    console.log(weatherRes);
+    let finalData = weatherParser(weatherRes);
+	for (i in finalData) {
+		resultsDisplay(i, finalData[i])
+	}
+	event.preventDefault()
+	return;
+})
