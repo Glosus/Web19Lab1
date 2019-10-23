@@ -64,19 +64,18 @@ function printError(str){
 }
 
 document.getElementById('search_block').addEventListener('submit', function(event){
+	event.preventDefault();
 	document.getElementById('result_blocks').innerHTML = '';
 	let text = document.getElementsByName("search")[0].value;
 	let enSearchString = yTranslator(text, 'en');
 	if (!enSearchString) { 
 		printError('Ошибка при обращении к API Yandex');
-		event.preventDefault();
 		return;
 	}
     console.log(enSearchString);
     let weatherRes = weatherSearch(enSearchString);
     if (!weatherRes) { 
 		printError('Ошибка при обращении к API OpenWeatherMap');
-		event.preventDefault();
 		return;
 	}
     console.log(weatherRes);
@@ -84,6 +83,5 @@ document.getElementById('search_block').addEventListener('submit', function(even
 	for (i in finalData) {
 		resultsDisplay(i, finalData[i])
 	}
-	event.preventDefault()
 	return;
 })
