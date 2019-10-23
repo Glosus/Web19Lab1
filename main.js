@@ -66,7 +66,7 @@ function printError(str){
 document.getElementById('search_block').addEventListener('submit', function(event){
 	event.preventDefault();
 	document.getElementById('result_blocks').innerHTML = '';
-	let text = document.getElementsByName("search")[0].value;
+	let text = event.target['myInput'].value;
 	let enSearchString = yTranslator(text, 'en');
 	if (!enSearchString) { 
 		printError('Ошибка при обращении к API Yandex');
